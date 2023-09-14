@@ -1,0 +1,19 @@
+/* Estilo do card */
+.card {
+    width: 300px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 20px;
+}
+
+/* Estilo da imagem */
+.card img {
+    max-width: 100%;
+    height: auto;
+    width: 100%; /* Garante que a imagem não ultrapasse a largura do card */
+}
+
+/* Estilo do texto */
+.card-text {
+    padding: 20px;
+}

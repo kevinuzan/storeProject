@@ -1,0 +1,30 @@
+[
+    {
+        "items": [
+            {
+                "price": 20,
+                "name": "batom",
+                "description": "Batom Vermelho",
+                "id": 0
+            },
+            {
+                "price": 15,
+                "name": "maquiagem",
+                "description": "Maquiagem Rosa",
+                "id": 1
+            },
+            {
+                "price": 5.50,
+                "name": "Lápis",
+                "description": "Lápis de Olho Preto",
+                "id": 2
+            },
+            {
+                "price": 6,
+                "name": "batom",
+                "description": "Cilios Postiço",
+                "id": 3
+            }
+        ]
+    }
+]
