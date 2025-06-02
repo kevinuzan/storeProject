@@ -27,9 +27,6 @@ const termosJuridicosPorLetra = {
     Z: ["Zona de Interesse Jurídico", "Zelo", "Zona Franca", "Zeladoria", "Zelo Profissional", "Zona de Conflito"]
 };
 
-let allContainers = [];
-let currentIndex = 0;
-
 // Função para pegar as primeiras letras únicas da lista base
 function getLetrasIniciais(palavras) {
     const letras = new Set();
@@ -38,7 +35,6 @@ function getLetrasIniciais(palavras) {
     }
     return Array.from(letras);
 }
-
 // Função para escolher N palavras aleatórias de um array
 function escolherAleatorias(array, n) {
     const copia = [...array];
@@ -50,7 +46,7 @@ function escolherAleatorias(array, n) {
     return escolhidas;
 }
 
-// Função principal para criar a lista completa com palavras do minemônico e aleatórias
+// Função principal
 function criarListaCompleta(base, extras, numAleatorias = 2) {
     const letras = getLetrasIniciais(base);
     const resultado = [...base];
@@ -67,187 +63,122 @@ function criarListaCompleta(base, extras, numAleatorias = 2) {
             }
         }
     }
+
     return resultado;
 }
 
-// Função para embaralhar um array
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
+var dataJsonItem = []
+async function addCardToPage(data) {
+    dataJsonItem = data
+    var dataToChange = data[0].items
+    for (item in data[0].items) {
+        console.log(dataToChange[item])
+        var template = document.getElementById("cardToAdd");
 
-// Função para exibir um container específico e gerenciar a visibilidade dos botões de navegação
-function displayContainer(index) {
-    allContainers.forEach(container => {
-        container.style.display = 'none'; // Esconde todos os containers
-    });
+        // Clona o conteúdo do template
+        var clone = document.importNode(template.content, true);
 
-    if (allContainers[index]) {
-        allContainers[index].style.display = 'block'; // Exibe o container atual
-    }
+        // Seleciona a div onde você deseja adicionar o template
+        var divDestino = document.getElementById("addCardToPage");
 
-    const prevButton = document.getElementById('prevButton');
-    const nextButton = document.getElementById('nextButton');
-
-    if (prevButton) {
-        prevButton.disabled = index === 0; // Desabilita 'Anterior' na primeira página
-    }
-    if (nextButton) {
-        nextButton.disabled = index === allContainers.length - 1; // Desabilita 'Próximo' na última página
+        // Adiciona o clone do template à div
+        divDestino.appendChild(clone);
+        document.getElementById("titleCard").innerText = dataToChange[item].minemonico
+        document.getElementById("descriptionCard").innerText = dataToChange[item].palavras[0]
+        document.getElementById("priceCard").innerText = dataToChange[item].palavras_corretas[1]
+        document.getElementById("titleCard").id = `title${dataToChange[item].id}`
+        document.getElementById("descriptionCard").id = `description${dataToChange[item].id}`
+        document.getElementById("priceCard").id = `price${dataToChange[item].id}`
     }
 }
 
-// Função para avançar para o próximo container
-function showNextContainer() {
-    if (currentIndex < allContainers.length - 1) {
-        currentIndex++;
-        displayContainer(currentIndex);
-    }
-}
-
-// Função para voltar para o container anterior
-function showPrevContainer() {
-    if (currentIndex > 0) {
-        currentIndex--;
-        displayContainer(currentIndex);
-    }
-}
 
 async function getItemData() {
     fetch('/json/productList.json')
         .then(response => response.json())
         .then(data => {
+            // addCardToPage(data)
+            console.log(data)
             const app = document.getElementById('app');
-            app.innerHTML = ''; // Limpa o conteúdo existente no 'app' div
-
-            // Adiciona o título principal
-            const titleRow = document.createElement('div');
-            titleRow.className = 'row justify-content-center';
-            titleRow.style.textAlign = 'center';
-            // const mainTitle = document.createElement('h1');
-            // mainTitle.className = 'text-center';
-            // mainTitle.textContent = 'MINEMÔNICOS';
-            // titleRow.appendChild(mainTitle);
-            // Adiciona os botões de navegação ao final do app
-            const navButtonsContainer = document.createElement('div');
-            navButtonsContainer.className = 'd-flex justify-content-center mt-4';
-            navButtonsContainer.innerHTML = `
-                <button id="prevButton" class="btn btn-primary me-2"><i class="fas fa-arrow-left"></i></button>
-                <button id="nextButton" class="btn btn-primary"><i class="fas fa-arrow-right"></i></button>
-            `;
-            app.appendChild(navButtonsContainer);
-            app.appendChild(titleRow);
-            app.appendChild(document.createElement('br')); // Adiciona uma quebra de linha
-
-
             data[0].items.forEach(item => {
                 const container = document.createElement('div');
-                container.className = 'container'; // Classe específica para os containers de minemônicos
-                container.style.display = 'none'; // Esconde inicialmente
-
-                // --- Adiciona a Matéria acima da Frase Inicial ---
-                const materiaElement = document.createElement('h3'); // Usar h3 para a matéria
-                materiaElement.className = 'materia-title text-center mb-2'; // Adicionar classes para estilo e espaçamento
-                materiaElement.textContent = item.materia;
-                container.appendChild(materiaElement);
+                container.className = 'container';
 
                 const header = document.createElement('div');
                 header.className = 'header';
-                // Lógica para destacar o minemônico na frase inicial
-                let highlightedFrase = item.frase_inicial;
-                if (item.minemonico && item.frase_inicial.includes(item.minemonico)) {
-                    const styledMinemonico = `<span style="font-size: 1.2em; color: #28a745; font-weight: bold;">${item.minemonico}</span>`;
-                    highlightedFrase = item.frase_inicial.replace(item.minemonico, styledMinemonico);
-                }
-                header.innerHTML = highlightedFrase; // Usa innerHTML para renderizar o span
-
+                header.textContent = item.minemonico;
 
                 const cards = document.createElement('div');
                 cards.className = 'cards';
-                let listaPalavras = shuffle([...item.palavras_corretas]);
+                var listaPalavras = shuffle([...item.palavras_corretas])
 
-                let listaPalavrasFinal = criarListaCompleta(listaPalavras, termosJuridicosPorLetra);
-                listaPalavrasFinal = shuffle([...listaPalavrasFinal]);
+                var listaPalavrasFinal = criarListaCompleta(listaPalavras, termosJuridicosPorLetra)
 
+                listaPalavrasFinal = shuffle([...listaPalavrasFinal])
                 listaPalavrasFinal.forEach(palavra => {
                     const card = document.createElement('div');
                     card.className = 'card';
+
+                    // if (palavra.includes(' ')) {
+                    //     const partes = palavra.split(' ');
+                    //     card.innerHTML = partes.join('<br>');  // Insere <br> ENTRE as palavras
+                    // } else {
+                    //     card.textContent = palavra;  // Mantém palavra única na mesma linha
+                    // }
                     card.textContent = palavra;
                     card.addEventListener('click', () => {
                         card.classList.toggle('active');
                     });
+
                     cards.appendChild(card);
                 });
 
                 const botaoFinal = document.createElement('button');
-                botaoFinal.className = 'btn btn-success mt-3';
+                botaoFinal.className = 'btn btn-success mt-3';  // Exemplo: botão verde com margem superior
                 botaoFinal.textContent = 'Enviar';
+
                 botaoFinal.addEventListener('click', () => {
+                    // Dentro do mesmo container, procura os cards com a classe 'active'
                     const selectedCards = container.querySelectorAll('.card.active');
-                    const selectedTexts = Array.from(selectedCards).map(card => card.innerText.trim());
 
-                    // Resetar estilos para todos os cards no container atual
-                    const allCardsInContainer = container.querySelectorAll('.card');
-                    allCardsInContainer.forEach(card => {
-                        card.style.backgroundColor = '';
-                        card.style.borderColor = '';
-                        card.style.color = '';
-                        card.style.fontWeight = '';
-                    });
+                    // Extrai os textos das seleções
+                    const selecionados = Array.from(selectedCards).map(card => card.innerText);
+                    var listaSelecionados = []
+                    if (selecionados.length > 0) {
 
-                    let allCorrectlySelected = true;
-                    let allCorrectWordsPresent = true;
+                        selectedCards.forEach(card => {
+                            const texto = card.innerText.trim();
 
-                    // Verificar cards selecionados para correção
-                    selectedCards.forEach(card => {
-                        const text = card.innerText.trim();
-                        if (listaPalavras.includes(text)) {
-                            card.style.backgroundColor = '#d4edda'; // Verde para correto
-                            card.style.borderColor = '#28a745';
-                            card.style.color = '#155724';
-                            card.style.fontWeight = 'bold';
-                        } else {
-                            card.style.backgroundColor = '#f8d7da'; // Vermelho para incorreto
-                            card.style.borderColor = '#dc3545';
-                            card.style.color = '#721c24';
-                            card.style.fontWeight = 'bold';
-                            allCorrectlySelected = false; // Encontrou uma seleção incorreta
-                        }
-                    });
-
-                    // Verificar se todas as palavras corretas originais foram selecionadas
-                    for (const correctWord of listaPalavras) {
-                        if (!selectedTexts.includes(correctWord)) {
-                            allCorrectWordsPresent = false; // Uma palavra correta foi perdida
-                            // Opcionalmente, destacar as palavras corretas perdidas de forma diferente
-                            const missedCard = Array.from(allCardsInContainer).find(card => card.innerText.trim() === correctWord);
-                            if (missedCard) {
-                                missedCard.style.backgroundColor = '#ffeeba'; // Amarelo para correto, mas não selecionado
-                                missedCard.style.borderColor = '#ffc107';
-                                missedCard.style.color = '#856404';
-                                missedCard.style.fontWeight = 'bold';
+                            if (listaPalavras.includes(texto)) {
+                                // Palavra correta → verde
+                                card.style.backgroundColor = '#d4edda';
+                                card.style.borderColor = '#28a745';
+                                card.style.color = '#155724';
+                                card.style.fontWeight = 'bold';
+                                listaSelecionados.push(texto)
+                            } else {
+                                // Palavra incorreta → vermelho
+                                card.style.backgroundColor = '#f8d7da';
+                                card.style.borderColor = '#dc3545';
+                                card.style.color = '#721c24';
+                                card.style.fontWeight = 'bold';
                             }
+                        });
+                        if (listaPalavras.length > listaSelecionados.length) {
+                            alert('Ainda há palavras a serem selecionadas!')
                         }
-                    }
-
-                    // Fornecer feedback com base nas verificações
-                    if (selectedCards.length === 0) {
-                        alert('Nenhum card selecionado!');
-                    } else if (allCorrectlySelected && allCorrectWordsPresent && selectedTexts.length === listaPalavras.length) {
-                        alert('Parabéns! Todas as palavras corretas foram selecionadas!');
                     } else {
-                        alert('Verifique suas seleções. Há palavras incorretas selecionadas (vermelho) ou palavras corretas faltando (amarelo).');
+                        alert('Nenhum card selecionado!');
                     }
                 });
 
                 const botaoReset = document.createElement('button');
                 botaoReset.className = 'btn btn-secondary mt-3 ml-2';
                 botaoReset.textContent = 'Reiniciar';
+
                 botaoReset.addEventListener('click', () => {
                     const allCards = container.querySelectorAll('.card');
+
                     allCards.forEach(card => {
                         card.classList.remove('active');
                         card.style.backgroundColor = '';
@@ -261,26 +192,29 @@ async function getItemData() {
                 container.appendChild(cards);
 
                 const botoesContainer = document.createElement('div');
-                botoesContainer.className = 'botoes-container'; // ADICIONE ESTA CLASSE AQUI
-                botoesContainer.style.gap = '10px'; // Pode remover este style inline se o CSS já cuidar do gap
-                botoesContainer.style.marginTop = '10px'; // Pode remover este style inline se o CSS já cuidar do margin-top
+                botoesContainer.style.display = 'flex';
+                botoesContainer.style.gap = '10px';
+                botoesContainer.style.marginTop = '10px';
 
                 botoesContainer.appendChild(botaoReset);
                 botoesContainer.appendChild(botaoFinal);
 
                 container.appendChild(botoesContainer);
-                allContainers.push(container); // Adiciona o container ao array global
-                app.appendChild(container); // Adiciona o container ao DOM (mas estará oculto inicialmente)
+                app.appendChild(container);
             });
-
-            // Adiciona event listeners aos botões de navegação
-            document.getElementById('prevButton').addEventListener('click', showPrevContainer);
-            document.getElementById('nextButton').addEventListener('click', showNextContainer);
-
-            // Exibe o primeiro container
-            displayContainer(currentIndex);
         })
         .catch(error => {
             console.error('Ocorreu um erro ao carregar o arquivo JSON:', error);
         });
+}
+
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        // Escolhe um índice aleatório entre 0 e i
+        const j = Math.floor(Math.random() * (i + 1));
+        // Troca os elementos de posição
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
 }
