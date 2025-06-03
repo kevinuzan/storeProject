@@ -1,0 +1,286 @@
+const termosJuridicosPorLetra = {
+    A: ["Acórdão", "Advogado", "Ação", "Audiência", "Apelação", "Arbitragem", "Alienação", "Administrativa", "Ação popular", "Ação civil pública", "Alimentação", "Ampla proteção ao salário na falência da empresa", "Assiduidade", "Aptidão", "Avisos", "Aposentadoria", "Autoexecutoriedade", "Atos normativos", "Aquisição de materiais/produtos de marca específica", "Artista consagrado pela crítica ou pela opinião pública", "Apostilas"],
+    B: ["Beneficiário", "Bens", "Bancarrota", "Busca e Apreensão", "Bonificação", "Branqueamento de Capital"],
+    C: ["Contrato", "Constituição", "Competência", "Citação", "Caução", "Custas", "Coisa Julgada", "Competência", "Capacitação", "Condição mais benéfica", "Cidadania", "Consultor técnico ou instituição com notória especialização", "Circulares", "Certidões", "Contraditório", "Construir uma sociedade livre, justa e solidária", "Competência exclusiva"],
+    D: ["Dano", "Defensor", "Denúncia", "Depósito", "Decreto", "Diligência", "Despacho", "Direitos individuais", "Despacho", "Demissão", "Desamparados", "Disciplina", "Dignidade da pessoa humana"],
+    E: ["Embargo", "Escritura", "Estelionato", "Exceção", "Execução", "Extradição", "Embargo de Declaração", "Eficiência", "Exoneração", "Educação", "Estabilidade do salário", "Eficiência", "Erradicar a pobreza e a marginalização"],
+    F: ["Fiança", "Foro", "Fraude", "Formalismo", "Fato Jurídico", "Favorecido", "Fiscalização", "Finalidade", "Forma", "Financeira", "Forma federativa de estado", "Finalidade", "Fornecedor exclusivo", "Falecimento"],
+    G: ["Garantia", "Gratuidade de Justiça", "Guia", "Gestão", "Gravame", "Graduação", "Genealogia Jurídica", "Garantir o desenvolvimento nacional"],
+    H: ["Habeas Corpus", "Honorários", "Hipoteca", "Homologação", "Hierarquia", "Herdabilidade", "Habilitação", "Habeas corpus", "Habeas data", "Higidez salarial"],
+    I: ["Indenização", "Injunção", "Intimação", "Interesse", "Interdito", "Improbidade", "Imóvel", "In dubio pro operario", "Irrenunciabilidade dos direitos do trabalhador", "Imagem", "Infância", "Idoneidade moral", "Imperatividade", "Impessoalidade", "Instruções"],
+    J: ["Jurisdição", "Juiz", "Julgamento", "Justiça", "Jurisprudência", "Juizado", "Jurada"],
+    K: ["Kleptocracia", "Know-how", "Kangaroo Court (tribunal injusto)", "Kafkiano (relacionado a processos absurdos)"],
+    L: ["Legislação", "Licitação", "Liminar", "Litispendência", "Lavagem de Dinheiro", "Leilão", "Liberdade Provisória", "Lugar", "Lazer", "Livre estipulação", "Legalidade", "Livre iniciativa"],
+    M: ["Mandado", "Ministério Público", "Medida Cautelar", "Mora", "Moratória", "Mutirão", "Mesário", "Motivação", "Mandato Classista", "Mandado de segurança", "Mandado de injunção", "Marca", "Maternidade", "Moradia", "Monetização do salário", "Moralidade"],
+    N: ["Notificação", "Nulidade", "Norma", "Necessidade", "Negócio Jurídico", "Nomeação", "Nexo Causal", "Norma mais favorável", "Nome"],
+    O: ["Objeto", "Onerosidade", "Ordem Pública", "Obrigação", "Ofensa", "Outorga", "Observância", "Objeto", "Orçamentária", "Ofícios", "Objetividade", "Oralidade", "Ordens de Serviço"],
+    P: ["Parecer", "Perícia", "Penhora", "Prescrição", "Prova", "Processo", "Pena", "Patrimonial", "Portarias", "Posse em cargo inacumulável", "Previdência", "Produtividade", "Publicidade", "Proporcionalidade", "Promoção", "Promover o bem de todos", "Presunção de legitimidade", "Periodicidade do pagamento", "Pareceres"],
+    Q: ["Quota", "Questionamento", "Quórum", "Qualificação", "Quebra de Sigilo", "Quarentena"],
+    R: ["Recurso", "Réu", "Réplicas", "Rescisão", "Remessa", "Representação", "Regulamento", "Recursos administrativos", "Readaptação", "Responsabilidade", "Razoabilidade"],
+    S: ["Sentença", "Suspensão", "Súmula", "Sucessão", "Sigilo", "Sanção", "Subsídio", "Separação dos poderes", "Segredo", "Saúde", "Segurança", "Segurança jurídica", "Soberania nacional", "Salário é impenhorável", "Serviços técnicos de natureza singular"],
+    T: ["Tutela", "Testamento", "Tribunal", "Transação", "Trânsito em Julgado", "Termo", "Tutela Antecipada", "Tratar de assuntos particulares", "Tempo", "Trabalho", "Transporte", "Transparência no pagamento", "Tipicidade"],
+    U: ["Usucapião", "Urbanização", "Ultratividade", "Utilização", "Unificação", "Unilateralidade", "Urbanismo", "Ubiquidade"],
+    V: ["Vara", "Vício", "Validade", "Veredicto", "Vínculo", "Vedação", "Violação", "Voto direto secreto", "Vedação ao salário inferior ao mínimo", "Valorização do trabalho humano"],
+    W: ["Writ (ordem judicial)", "Wrongful Act", "Waiver (renúncia)", "Witness (testemunha)"],
+    X: ["Xerox (cópia autenticada)", "Xenofobia (no direito penal)", "Exceção de Pré-Executividade", "Taxa de Execução"],
+    Y: ["Yield (rendimento, rendimento jurídico)", "Yankee bond (título americano)", "Yearly tenancy (locação anual)", "Youth law (direito da juventude)"],
+    Z: ["Zona de Interesse Jurídico", "Zelo", "Zona Franca", "Zeladoria", "Zelo Profissional", "Zona de Conflito"]
+};
+
+let allContainers = [];
+let currentIndex = 0;
+
+// Função para pegar as primeiras letras únicas da lista base
+function getLetrasIniciais(palavras) {
+    const letras = new Set();
+    for (const palavra of palavras) {
+        letras.add(palavra[0].toUpperCase());
+    }
+    return Array.from(letras);
+}
+
+// Função para escolher N palavras aleatórias de um array
+function escolherAleatorias(array, n) {
+    const copia = [...array];
+    const escolhidas = [];
+    for (let i = 0; i < n && copia.length > 0; i++) {
+        const index = Math.floor(Math.random() * copia.length);
+        escolhidas.push(copia.splice(index, 1)[0]);
+    }
+    return escolhidas;
+}
+
+// Função principal para criar a lista completa com palavras do minemônico e aleatórias
+function criarListaCompleta(base, extras, numAleatorias = 2) {
+    const letras = getLetrasIniciais(base);
+    const resultado = [...base];
+
+    for (const letra of letras) {
+        if (extras[letra]) {
+            const listaExtras = extras[letra];
+            const aleatorias = escolherAleatorias(listaExtras, numAleatorias);
+
+            for (const palavra of aleatorias) {
+                if (!resultado.includes(palavra)) {
+                    resultado.push(palavra);
+                }
+            }
+        }
+    }
+    return resultado;
+}
+
+// Função para embaralhar um array
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+// Função para exibir um container específico e gerenciar a visibilidade dos botões de navegação
+function displayContainer(index) {
+    allContainers.forEach(container => {
+        container.style.display = 'none'; // Esconde todos os containers
+    });
+
+    if (allContainers[index]) {
+        allContainers[index].style.display = 'block'; // Exibe o container atual
+    }
+
+    const prevButton = document.getElementById('prevButton');
+    const nextButton = document.getElementById('nextButton');
+
+    if (prevButton) {
+        prevButton.disabled = index === 0; // Desabilita 'Anterior' na primeira página
+    }
+    if (nextButton) {
+        nextButton.disabled = index === allContainers.length - 1; // Desabilita 'Próximo' na última página
+    }
+}
+
+// Função para avançar para o próximo container
+function showNextContainer() {
+    if (currentIndex < allContainers.length - 1) {
+        currentIndex++;
+        displayContainer(currentIndex);
+    }
+}
+
+// Função para voltar para o container anterior
+function showPrevContainer() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        displayContainer(currentIndex);
+    }
+}
+
+async function getItemData() {
+    fetch('/json/productList.json')
+        .then(response => response.json())
+        .then(data => {
+            const app = document.getElementById('app');
+            app.innerHTML = ''; // Limpa o conteúdo existente no 'app' div
+
+            // Adiciona o título principal
+            const titleRow = document.createElement('div');
+            titleRow.className = 'row justify-content-center';
+            titleRow.style.textAlign = 'center';
+            // const mainTitle = document.createElement('h1');
+            // mainTitle.className = 'text-center';
+            // mainTitle.textContent = 'MINEMÔNICOS';
+            // titleRow.appendChild(mainTitle);
+            // Adiciona os botões de navegação ao final do app
+            const navButtonsContainer = document.createElement('div');
+            navButtonsContainer.className = 'd-flex justify-content-center mt-4';
+            navButtonsContainer.innerHTML = `
+                <button id="prevButton" class="btn btn-primary me-2"><i class="fas fa-arrow-left"></i></button>
+                <button id="nextButton" class="btn btn-primary"><i class="fas fa-arrow-right"></i></button>
+            `;
+            app.appendChild(navButtonsContainer);
+            app.appendChild(titleRow);
+            app.appendChild(document.createElement('br')); // Adiciona uma quebra de linha
+
+
+            data[0].items.forEach(item => {
+                const container = document.createElement('div');
+                container.className = 'container'; // Classe específica para os containers de minemônicos
+                container.style.display = 'none'; // Esconde inicialmente
+
+                // --- Adiciona a Matéria acima da Frase Inicial ---
+                const materiaElement = document.createElement('h3'); // Usar h3 para a matéria
+                materiaElement.className = 'materia-title text-center mb-2'; // Adicionar classes para estilo e espaçamento
+                materiaElement.textContent = item.materia;
+                container.appendChild(materiaElement);
+
+                const header = document.createElement('div');
+                header.className = 'header';
+                // Lógica para destacar o minemônico na frase inicial
+                let highlightedFrase = item.frase_inicial;
+                if (item.minemonico && item.frase_inicial.includes(item.minemonico)) {
+                    const styledMinemonico = `<span style="font-size: 1.2em; color: #28a745; font-weight: bold;">${item.minemonico}</span>`;
+                    highlightedFrase = item.frase_inicial.replace(item.minemonico, styledMinemonico);
+                }
+                header.innerHTML = highlightedFrase; // Usa innerHTML para renderizar o span
+
+
+                const cards = document.createElement('div');
+                cards.className = 'cards';
+                let listaPalavras = shuffle([...item.palavras_corretas]);
+
+                let listaPalavrasFinal = criarListaCompleta(listaPalavras, termosJuridicosPorLetra);
+                listaPalavrasFinal = shuffle([...listaPalavrasFinal]);
+
+                listaPalavrasFinal.forEach(palavra => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.textContent = palavra;
+                    card.addEventListener('click', () => {
+                        card.classList.toggle('active');
+                    });
+                    cards.appendChild(card);
+                });
+
+                const botaoFinal = document.createElement('button');
+                botaoFinal.className = 'btn btn-success mt-3';
+                botaoFinal.textContent = 'Enviar';
+                botaoFinal.addEventListener('click', () => {
+                    const selectedCards = container.querySelectorAll('.card.active');
+                    const selectedTexts = Array.from(selectedCards).map(card => card.innerText.trim());
+
+                    // Resetar estilos para todos os cards no container atual
+                    const allCardsInContainer = container.querySelectorAll('.card');
+                    allCardsInContainer.forEach(card => {
+                        card.style.backgroundColor = '';
+                        card.style.borderColor = '';
+                        card.style.color = '';
+                        card.style.fontWeight = '';
+                    });
+
+                    let allCorrectlySelected = true;
+                    let allCorrectWordsPresent = true;
+
+                    // Verificar cards selecionados para correção
+                    selectedCards.forEach(card => {
+                        const text = card.innerText.trim();
+                        if (listaPalavras.includes(text)) {
+                            card.style.backgroundColor = '#d4edda'; // Verde para correto
+                            card.style.borderColor = '#28a745';
+                            card.style.color = '#155724';
+                            card.style.fontWeight = 'bold';
+                        } else {
+                            card.style.backgroundColor = '#f8d7da'; // Vermelho para incorreto
+                            card.style.borderColor = '#dc3545';
+                            card.style.color = '#721c24';
+                            card.style.fontWeight = 'bold';
+                            allCorrectlySelected = false; // Encontrou uma seleção incorreta
+                        }
+                    });
+
+                    // Verificar se todas as palavras corretas originais foram selecionadas
+                    for (const correctWord of listaPalavras) {
+                        if (!selectedTexts.includes(correctWord)) {
+                            allCorrectWordsPresent = false; // Uma palavra correta foi perdida
+                            // Opcionalmente, destacar as palavras corretas perdidas de forma diferente
+                            const missedCard = Array.from(allCardsInContainer).find(card => card.innerText.trim() === correctWord);
+                            if (missedCard) {
+                                missedCard.style.backgroundColor = '#ffeeba'; // Amarelo para correto, mas não selecionado
+                                missedCard.style.borderColor = '#ffc107';
+                                missedCard.style.color = '#856404';
+                                missedCard.style.fontWeight = 'bold';
+                            }
+                        }
+                    }
+
+                    // Fornecer feedback com base nas verificações
+                    if (selectedCards.length === 0) {
+                        alert('Nenhum card selecionado!');
+                    } else if (allCorrectlySelected && allCorrectWordsPresent && selectedTexts.length === listaPalavras.length) {
+                        alert('Parabéns! Todas as palavras corretas foram selecionadas!');
+                    } else {
+                        alert('Verifique suas seleções. Há palavras incorretas selecionadas (vermelho) ou palavras corretas faltando (amarelo).');
+                    }
+                });
+
+                const botaoReset = document.createElement('button');
+                botaoReset.className = 'btn btn-secondary mt-3 ml-2';
+                botaoReset.textContent = 'Reiniciar';
+                botaoReset.addEventListener('click', () => {
+                    const allCards = container.querySelectorAll('.card');
+                    allCards.forEach(card => {
+                        card.classList.remove('active');
+                        card.style.backgroundColor = '';
+                        card.style.borderColor = '';
+                        card.style.color = '';
+                        card.style.fontWeight = '';
+                    });
+                });
+
+                container.appendChild(header);
+                container.appendChild(cards);
+
+                const botoesContainer = document.createElement('div');
+                botoesContainer.className = 'botoes-container'; // ADICIONE ESTA CLASSE AQUI
+                botoesContainer.style.gap = '10px'; // Pode remover este style inline se o CSS já cuidar do gap
+                botoesContainer.style.marginTop = '10px'; // Pode remover este style inline se o CSS já cuidar do margin-top
+
+                botoesContainer.appendChild(botaoReset);
+                botoesContainer.appendChild(botaoFinal);
+
+                container.appendChild(botoesContainer);
+                allContainers.push(container); // Adiciona o container ao array global
+                app.appendChild(container); // Adiciona o container ao DOM (mas estará oculto inicialmente)
+            });
+
+            // Adiciona event listeners aos botões de navegação
+            document.getElementById('prevButton').addEventListener('click', showPrevContainer);
+            document.getElementById('nextButton').addEventListener('click', showNextContainer);
+
+            // Exibe o primeiro container
+            displayContainer(currentIndex);
+        })
+        .catch(error => {
+            console.error('Ocorreu um erro ao carregar o arquivo JSON:', error);
+        });
+}

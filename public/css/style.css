@@ -34,11 +34,23 @@ body {
     margin: 0; /* Remove margem padrão do h1 */
 }
 
+/* --- Container de Cada Minemônico (o que estava com problema) --- */
+.container2 {
+    border: 2px solid #000;
+    width: 100%; /* MUITO IMPORTANTE: Garante que o container ocupe 100% da largura do #app */ 
+    padding: 10px;
+    box-sizing: border-box;
+    margin: 0; /* Remove margem padrão para que o gap do #app controle o espaçamento */
+    margin-bottom: 20px; /* Adiciona um espaçamento inferior para separação entre minemônicos */
+    display: flex; /* Adiciona display flex para organizar conteúdo interno */
+    flex-direction: column; /* Organiza matéria, header, cards e botões verticalmente */
+    align-items: stretch; /* Garante que os filhos (como o header) se estiquem para a largura total do container */
+}
 
 /* --- Container de Cada Minemônico (o que estava com problema) --- */
 .container {
     border: 2px solid #000;
-    width: 100%; /* MUITO IMPORTANTE: Garante que o container ocupe 100% da largura do #app */
+    width: 100%; /* MUITO IMPORTANTE: Garante que o container ocupe 100% da largura do #app */ 
     padding: 10px;
     box-sizing: border-box;
     margin: 0; /* Remove margem padrão para que o gap do #app controle o espaçamento */
@@ -84,6 +96,42 @@ body {
     box-sizing: border-box;
 }
 
+/* --- Container dos Cards --- */
+.cards2 {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(130px, 1fr));
+    gap: 10px;
+    padding: 10px; /* Aumenta o padding interno para os cards */
+    width: 100%; /* Ocupa 100% da largura do container */
+    box-sizing: border-box;
+}
+
+/* --- Estilo Individual do Card --- */
+.card2 {
+    border: 2px solid #000;
+    padding: 1px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    white-space: normal;
+    overflow: hidden;
+    width: 100%; /* Largura padrão para cards */
+    height: 110px; /* Altura padrão para cards */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Estilo do card ativo (selecionado) */
+.card2.active {
+    background-color: #4c82af;
+    color: #fff;
+}
 /* --- Estilo Individual do Card --- */
 .card {
     border: 2px solid #000;
@@ -181,6 +229,18 @@ body {
     .container {
         padding: 15px; /* Mais padding interno para o container em mobile */
         margin-bottom: 15px; /* Reduz o espaçamento entre minemônicos */
+    }
+
+    .cards2 {
+        grid-template-columns: repeat(1, minmax(100px, 1fr)); /* Mais colunas compactas */
+        gap: 8px;
+        padding: 5px; /* Menor padding interno dos cards */
+    }
+    .card2 {
+        width: auto; /* Deixa a largura automática para o grid controlar */
+        height: 130px; /* Altura do card ajustada */
+        font-size: 10.5px; /* Texto menor para caber melhor */
+        word-break: break-word;
     }
 
     .cards {

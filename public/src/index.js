@@ -27,8 +27,53 @@ const termosJuridicosPorLetra = {
     Z: ["Zona de Interesse Jurídico", "Zelo", "Zona Franca", "Zeladoria", "Zelo Profissional", "Zona de Conflito"]
 };
 
+var competencias = [
+    "Processar e julgar causas cíveis e criminais comuns de competência estadual.",
+    "Julgar ações de direito de família e sucessões.",
+    "Julgar ações penais comuns por crimes praticados dentro da jurisdição estadual.",
+    "Organizar, dirigir e fiscalizar eleições em âmbito estadual e municipal.",
+    "Julgar crimes eleitorais e infrações relacionadas ao processo eleitoral.",
+    "Processar e julgar reclamações trabalhistas e dissídios coletivos.",
+    "Julgar ações relativas à segurança e medicina do trabalho.",
+    "Julgar ações de indenização por acidentes de trabalho.",
+    "Processar e julgar crimes militares estaduais cometidos por policiais militares e bombeiros militares.",
+    "Julgar infrações disciplinares militares estaduais.",
+    "Julgar causas cíveis de menor complexidade em juizados especiais.",
+    "Julgar infrações penais de menor potencial ofensivo em juizados especiais.",
+    "Julgar causas relativas a direitos do consumidor em juizados especiais.",
+    "Processar execuções fiscais estaduais e municipais.",
+    "Julgar ações relativas a responsabilidade civil no âmbito estadual.",
+    "Julgar pedidos de interdição e curatela.",
+    "Processar ações de alimentos e tutela de menores.",
+    "Julgar ações possessórias em âmbito estadual.",
+    "Julgar questões relacionadas a propriedade e posse de bens imóveis estaduais.",
+    "Julgar mandados de segurança contra atos de autoridades estaduais e municipais.",
+    "Julgar ações de improbidade administrativa na esfera estadual.",
+    "Julgar processos criminais por crimes ambientais estaduais.",
+    "Julgar ações relativas a direito do consumidor em juizados especiais e varas cíveis estaduais.",
+    "Julgar ações de desapropriação por interesse social ou utilidade pública estadual.",
+    "Julgar recursos ordinários em processos cíveis estaduais.",
+    "Julgar ações relativas a interesses coletivos e difusos em âmbito estadual.",
+    "Julgar mandados de injunção em matérias estaduais.",
+    "Processar e julgar ações de crime contra a ordem tributária estadual.",
+    "Julgar ações civis públicas em defesa do meio ambiente estadual.",
+    "Julgar ações de indenização por danos morais e materiais decorrentes de acidente de trânsito entre particulares, sem envolvimento da União, autarquias ou empresas públicas federais.",
+    "Conhecer e julgar causas relativas à guarda, tutela, curatela e adoção de menores, inclusive quando houver disputa judicial entre os genitores ou familiares.",
+    "Processar e julgar ações possessórias envolvendo imóveis rurais ou urbanos, quando não houver interesse de ente federal ou questão agrária de competência da Justiça Federal.",
+    "Julgar ações de responsabilidade civil por erro médico ajuizadas por particulares contra hospitais privados ou profissionais de saúde autônomos.",
+    "Conhecer e julgar execuções fiscais propostas por Estados ou Municípios para a cobrança de tributos como IPVA, ISS ou IPTU.",
+    "Processar e julgar causas relacionadas a contratos de locação, compra e venda ou prestação de serviços entre pessoas físicas ou jurídicas no âmbito estadual.",
+    "Julgar ações civis públicas propostas por associações civis em defesa de direitos coletivos locais, tais como saúde, educação ou transporte.",
+    "Julgar ações contra decisões administrativas de órgãos estaduais, desde que não haja competência federal envolvida.",
+    "Processar ações relativas à proteção do patrimônio histórico, cultural e ambiental estadual.",
+    "Julgar ações de usucapião de imóveis localizados em áreas urbanas que não envolvam interesse de entes federais."
+];
+
+
 let allContainers = [];
+let allContainers2 = [];
 let currentIndex = 0;
+let currentIndex2 = 0;
 
 // Função para pegar as primeiras letras únicas da lista base
 function getLetrasIniciais(palavras) {
@@ -51,6 +96,59 @@ function escolherAleatorias(array, n) {
 }
 
 // Função principal para criar a lista completa com palavras do minemônico e aleatórias
+// function criarListaCompleta2(base, extras, numAleatorias = 2) {
+//     const resultado = [...base];
+//     const aleatorias = escolherAleatorias(extras, numAleatorias);
+//     var enviar = []
+//     for (const palavra of aleatorias) {
+//         if (!resultado.includes(palavra)) {
+//             enviar.push(palavra);
+//         }
+//     }
+
+//     var contador = 0
+//     for (var palavra2 in resultado) {
+//         enviar.push(resultado[palavra2])
+//         contador++
+//         if (contador == 3) break
+
+//     }
+
+//     console.log(enviar)
+//     return enviar;
+// }
+
+
+function criarListaCompleta2(base, extras, numAleatorias = 2) {
+    const resultado = [...base];
+    const aleatorias = escolherAleatorias(extras, numAleatorias);
+    const enviar = [];
+
+    // Adiciona as aleatórias que não estão no base
+    for (const palavra of aleatorias) {
+        if (!resultado.includes(palavra)) {
+            enviar.push(palavra);
+        }
+    }
+
+    // Preenche com mais aleatórias (diferentes) se não atingiu o número esperado
+    while (enviar.length < numAleatorias) {
+        const restantes = extras.filter(p => !resultado.includes(p) && !enviar.includes(p));
+        if (restantes.length === 0) break;
+        const extra = escolherAleatorias(restantes, 1)[0];
+        enviar.push(extra);
+    }
+
+    // Adiciona até 3 da base
+    for (let i = 0; i < resultado.length && enviar.length < numAleatorias + 3; i++) {
+        enviar.push(resultado[i]);
+    }
+
+    console.log(enviar);
+    return enviar;
+}
+
+// Função principal para criar a lista completa com palavras do minemônico e aleatórias
 function criarListaCompleta(base, extras, numAleatorias = 2) {
     const letras = getLetrasIniciais(base);
     const resultado = [...base];
@@ -68,6 +166,15 @@ function criarListaCompleta(base, extras, numAleatorias = 2) {
         }
     }
     return resultado;
+}
+
+// Função para embaralhar um array
+function shuffle2(array, qtd) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array.slice(0, qtd);
 }
 
 // Função para embaralhar um array
@@ -116,11 +223,50 @@ function showPrevContainer() {
     }
 }
 
+
+// Função para exibir um container específico e gerenciar a visibilidade dos botões de navegação
+function displayContainer2(index) {
+    allContainers2.forEach(container => {
+        container.style.display = 'none'; // Esconde todos os containers
+    });
+
+    if (allContainers2[index]) {
+        allContainers2[index].style.display = 'block'; // Exibe o container atual
+    }
+
+    const prevButton = document.getElementById('prevButton2');
+    const nextButton = document.getElementById('nextButton2');
+
+    if (prevButton) {
+        prevButton.disabled = index === 0; // Desabilita 'Anterior' na primeira página
+    }
+    if (nextButton) {
+        nextButton.disabled = index === allContainers2.length - 1; // Desabilita 'Próximo' na última página
+    }
+}
+
+// Função para avançar para o próximo container
+function showNextContainer2() {
+    if (currentIndex < allContainers2.length - 1) {
+        currentIndex++;
+        displayContainer2(currentIndex);
+    }
+}
+
+// Função para voltar para o container anterior
+function showPrevContainer2() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        displayContainer2(currentIndex);
+    }
+}
+
+
 async function getItemData() {
     fetch('/json/productList.json')
         .then(response => response.json())
         .then(data => {
-            const app = document.getElementById('app');
+            const app = document.getElementById('mnemonicos');
             app.innerHTML = ''; // Limpa o conteúdo existente no 'app' div
 
             // Adiciona o título principal
@@ -282,5 +428,239 @@ async function getItemData() {
         })
         .catch(error => {
             console.error('Ocorreu um erro ao carregar o arquivo JSON:', error);
+        });
+}
+
+
+async function getItemData2() {
+    fetch('/json/competencias.json')
+        .then(response => response.json())
+        .then(data => {
+            const app = document.getElementById('competencias');
+            app.innerHTML = ''; // Limpa o conteúdo existente no 'app' div
+
+            // Adiciona o título principal
+            const titleRow = document.createElement('div');
+            titleRow.className = 'row justify-content-center';
+            titleRow.style.textAlign = 'center';
+            // const mainTitle = document.createElement('h1');
+            // mainTitle.className = 'text-center';
+            // mainTitle.textContent = 'MINEMÔNICOS';
+            // titleRow.appendChild(mainTitle);
+            // Adiciona os botões de navegação ao final do app
+
+            const atualiza = document.createElement('div');
+            atualiza.className = 'd-flex right mt-4';
+            atualiza.innerHTML = `
+                <button id="update" class="btn btn-primary me-2"><i class="fas fa-rotate"></i></button>
+            `;
+
+            const navButtonsContainer = document.createElement('div');
+            navButtonsContainer.className = 'd-flex justify-content-center mt-4';
+            navButtonsContainer.innerHTML = `
+                <button id="prevButton2" class="btn btn-primary me-2"><i class="fas fa-arrow-left"></i></button>
+                <button id="nextButton2" class="btn btn-primary"><i class="fas fa-arrow-right"></i></button>
+            `;
+            app.appendChild(atualiza);
+            app.appendChild(navButtonsContainer);
+            app.appendChild(titleRow);
+            app.appendChild(document.createElement('br')); // Adiciona uma quebra de linha
+
+
+            Object.keys(data).forEach(key => {
+
+                if (key === "GERAL") {
+                    competencias = competencias.concat(data[key])
+                } else {
+                    const container = document.createElement('div');
+                    container.className = 'container2'; // Classe específica para os containers de minemônicos
+                    container.style.display = 'none'; // Esconde inicialmente
+
+                    // --- Adiciona a Matéria acima da Frase Inicial ---
+                    const materiaElement = document.createElement('h3'); // Usar h3 para a matéria
+                    materiaElement.className = 'materia-title text-center mb-2'; // Adicionar classes para estilo e espaçamento
+                    materiaElement.textContent = key;
+                    container.appendChild(materiaElement);
+
+                    const header = document.createElement('div');
+                    header.className = 'header';
+                    // Lógica para destacar o minemônico na frase inicial
+                    let highlightedFrase = `Cabe ao(s) ${key}`;
+                    header.innerHTML = highlightedFrase; // Usa innerHTML para renderizar o span
+                    console.log(highlightedFrase)
+
+                    const cards = document.createElement('div');
+                    cards.className = 'cards2';
+                    let listaPalavras = shuffle2([...data[key]], 1000);
+                    let listaPalavrasFinal = criarListaCompleta2(listaPalavras, competencias);
+                    console.log(listaPalavrasFinal)
+                    listaPalavrasFinal = shuffle2([...listaPalavrasFinal], 5);
+
+                    listaPalavrasFinal.forEach(palavra => {
+                        const card = document.createElement('div');
+                        card.className = 'card2';
+                        card.textContent = palavra;
+                        card.addEventListener('click', () => {
+                            card.classList.toggle('active');
+                        });
+                        cards.appendChild(card);
+                    });
+
+                    const botaoFinal = document.createElement('button');
+                    botaoFinal.className = 'btn btn-success mt-3';
+                    botaoFinal.textContent = 'Enviar';
+                    botaoFinal.addEventListener('click', () => {
+                        const selectedCards = container.querySelectorAll('.card2.active');
+                        const selectedTexts = Array.from(selectedCards).map(card => card.innerText.trim());
+
+
+                        // Resetar estilos para todos os cards no container atual
+                        const allCardsInContainer = container.querySelectorAll('.card2');
+                        allCardsInContainer.forEach(card => {
+                            card.style.backgroundColor = '';
+                            card.style.borderColor = '';
+                            card.style.color = '';
+                            card.style.fontWeight = '';
+                        });
+
+                        let allCorrectlySelected = true;
+                        let allCorrectWordsPresent = true;
+
+                        // Verificar cards selecionados para correção
+                        selectedCards.forEach(card => {
+                            const text = card.innerText.trim();
+                            console.log(text, allCorrectlySelected)
+                            if (listaPalavras.includes(text)) {
+                                card.style.backgroundColor = '#d4edda'; // Verde para correto
+                                card.style.borderColor = '#28a745';
+                                card.style.color = '#155724';
+                                card.style.fontWeight = 'bold';
+                            } else {
+                                card.style.backgroundColor = '#f8d7da'; // Vermelho para incorreto
+                                card.style.borderColor = '#dc3545';
+                                card.style.color = '#721c24';
+                                card.style.fontWeight = 'bold';
+                                allCorrectlySelected = false; // Encontrou uma seleção incorreta
+                            }
+                        });
+
+                        // Verificar se todas as palavras corretas originais foram selecionadas
+                        for (const correctWord of listaPalavras) {
+                            console.log(correctWord, selectedTexts)
+                            if (!selectedTexts.includes(correctWord)) {
+                                allCorrectWordsPresent = false; // Uma palavra correta foi perdida
+                                // Opcionalmente, destacar as palavras corretas perdidas de forma diferente
+                                const missedCard = Array.from(allCardsInContainer).find(card => card.innerText.trim() === correctWord);
+                                if (missedCard) {
+                                    missedCard.style.backgroundColor = '#ffeeba'; // Amarelo para correto, mas não selecionado
+                                    missedCard.style.borderColor = '#ffc107';
+                                    missedCard.style.color = '#856404';
+                                    missedCard.style.fontWeight = 'bold';
+                                }
+                            }
+                        }
+
+                        // Fornecer feedback com base nas verificações
+                        // if (selectedCards.length === 0) {
+                        //     alert('Nenhum card selecionado!');
+                        // } else if (allCorrectlySelected && allCorrectWordsPresent && selectedTexts.length === listaPalavras.length) {
+                        //     alert('Parabéns! Todas as palavras corretas foram selecionadas!');
+                        // } else {
+                        //     alert('Verifique suas seleções. Há palavras incorretas selecionadas (vermelho) ou palavras corretas faltando (amarelo).');
+                        // }
+                    });
+
+                    const botaoReset = document.createElement('button');
+                    botaoReset.className = 'btn btn-secondary mt-3 ml-2';
+                    botaoReset.textContent = 'Reiniciar';
+                    botaoReset.addEventListener('click', () => {
+                        const allCards = container.querySelectorAll('.card2');
+                        allCards.forEach(card => {
+                            card.classList.remove('active');
+                            card.style.backgroundColor = '';
+                            card.style.borderColor = '';
+                            card.style.color = '';
+                            card.style.fontWeight = '';
+                        });
+                    });
+
+                    container.appendChild(header);
+                    container.appendChild(cards);
+
+                    const botoesContainer = document.createElement('div');
+                    botoesContainer.className = 'botoes-container'; // ADICIONE ESTA CLASSE AQUI
+                    botoesContainer.style.gap = '10px'; // Pode remover este style inline se o CSS já cuidar do gap
+                    botoesContainer.style.marginTop = '10px'; // Pode remover este style inline se o CSS já cuidar do margin-top
+
+                    botoesContainer.appendChild(botaoReset);
+                    botoesContainer.appendChild(botaoFinal);
+
+                    container.appendChild(botoesContainer);
+                    allContainers2.push(container); // Adiciona o container ao array global
+                    app.appendChild(container); // Adiciona o container ao DOM (mas estará oculto inicialmente)
+                }
+            });
+
+            // Adiciona event listeners aos botões de navegação
+            document.getElementById('prevButton2').addEventListener('click', showPrevContainer2);
+            document.getElementById('nextButton2').addEventListener('click', showNextContainer2);
+            document.getElementById('update').addEventListener('click', updateCards2);
+
+            // Exibe o primeiro container
+            displayContainer2(currentIndex2);
+        })
+        .catch(error => {
+            console.error('Ocorreu um erro ao carregar o arquivo JSON:', error);
+        });
+}
+
+function getContainerVisivel() {
+    const containers = document.querySelectorAll('.container2');
+    for (const container of containers) {
+        const estilo = getComputedStyle(container);
+        if (estilo.display === 'block') {
+            return container;
+        }
+    }
+    return null; // Nenhum visível
+}
+
+function updateCards2() {
+    const containers = document.querySelectorAll('.container2');
+
+    // Procura o que está com display: block
+    let containerVisivel = null;
+    for (const c of containers) {
+        if (getComputedStyle(c).display === 'block') {
+            containerVisivel = c;
+            break;
+        }
+    }
+
+    const cards2 = containerVisivel.querySelectorAll('.card2');
+    if (containerVisivel) {
+        cards2.forEach(card => card.remove());
+    }
+    const materia = containerVisivel.children[0].innerText
+    console.log(materia)
+    const cardsContainer = containerVisivel.querySelector('.cards2');
+    fetch('/json/competencias.json')
+        .then(response => response.json())
+        .then(data => {
+            let listaPalavras = shuffle2([...data[materia]], 1000);
+            let listaPalavrasFinal = criarListaCompleta2(listaPalavras, competencias);
+            console.log(listaPalavrasFinal)
+
+            listaPalavrasFinal = shuffle2([...listaPalavrasFinal], 5);
+
+            listaPalavrasFinal.forEach(palavra => {
+                const card = document.createElement('div');
+                card.className = 'card2';
+                card.textContent = palavra;
+                card.addEventListener('click', () => {
+                    card.classList.toggle('active');
+                });
+                cardsContainer.appendChild(card);
+            });
         });
 }
