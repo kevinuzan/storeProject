@@ -57,19 +57,6 @@
                 "materia": "Direito Constitucional"
             },
             {
-                "minemonico": "INECATU",
-                "palavras_corretas": [
-                    "In dubio pro operario",
-                    "Norma mais favorável",
-                    "Condição mais benéfica",
-                    "Irrenunciabilidade dos direitos do trabalhador"
-                ],
-                "frase_inicial": "INECATU são os princípios do Direito do Trabalho:",
-                "esta_separado": true,
-                "separacao": [],
-                "materia": "Direito do Trabalho"
-            },
-            {
                 "minemonico": "IMNSS",
                 "palavras_corretas": [
                     "Imagem",
