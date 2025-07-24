@@ -539,6 +539,13 @@ body {
         padding: 0.6em 0.8em;
         font-size: 0.85em;
     }
+
+    .lacuna-input {
+        min-width: 40px;
+        font-size: 0.8em;
+        padding: 0.15em 0.4em;
+    }
+
     .d-flex.justify-content-center.mt-4 {
         flex-direction: column; /* Botões de navegação empilhados em telas muito pequenas */
         gap: var(--gap-sm);
