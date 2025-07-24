@@ -45,20 +45,11 @@ async function baixarConstituicao() {
   const $ = cheerio.load(html);
 
   const artigos = [];
-  let encontrouFinal = false;
 
   $('p').each((_, el) => {
-    if (encontrouFinal) return;
-
-    const text = $(el).text().trim();
-
-    if (text.includes('Brasília, 5 de outubro de 1988.')) {
-      encontrouFinal = true;
-      return;
-    }
-
     if ($(el).find('strike').length > 0) return;
 
+    const text = $(el).text().trim();
     const artigoMatch = text.match(/^Art\. ?\d+/);
     if (artigoMatch) {
       const artigo = { titulo: text, paragrafos: [], incisos: [] };
@@ -66,11 +57,6 @@ async function baixarConstituicao() {
       let current = $(el).next();
 
       while (current.length && !/^Art\. ?\d+/.test(current.text().trim())) {
-        const t = current.text().trim();
-        if (t.includes('Brasília, 5 de outubro de 1988.')) {
-          encontrouFinal = true;
-          break;
-        }
         siblings.push(current);
         current = current.next();
       }
@@ -93,7 +79,6 @@ async function baixarConstituicao() {
       artigos.push(artigo);
     }
   });
-
 
   return artigos;
 }

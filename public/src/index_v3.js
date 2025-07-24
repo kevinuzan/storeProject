@@ -714,174 +714,19 @@ function updateCards2() {
         });
 }
 
+// function gerarLacunasAutomaticamente(texto) {
+//   return texto.replace(/\b([a-zA-ZçÇáéíóúâêôãõÁÉÍÓÚÂÊÔÃÕ]{7,})\b/g, '________');
+// }
 
-// Função para remover acentos e pontuações, deixar só letras e números minúsculos
-function normalizarTexto(texto) {
-    return texto
-        .normalize('NFD') // separa os acentos
-        .replace(/[\u0300-\u036f]/g, '') // remove os acentos
-        .replace(/[^\w\s]/gi, '') // remove pontuação
-        .toLowerCase();
-}
+// async function teste() {
+//     console.log("entrou aqui")
+//     fetch('/constituicao')
+//         .then(res => res.json())
+//         .then(data => {
+//             console.log(data.artigos); 
+//             gerarLacunasAutomaticamente
+//         })
+//         .catch(console.error);
+// }
 
-function gerarLacunasComInputs(texto, maxPalavras = 3) {
-    const palavras = texto.split(/(\s+)/); // separa mantendo espaços
-
-    // índices das palavras que são válidas para virar lacuna
-    const indicesValidos = palavras
-        .map((p, i) => ({ p, i }))
-        .filter(({ p }) => /\b(?!Parágrafo)[\wçáéíóúâêôãõÁ-Ú]{7,}\b/i.test(p))
-        .map(({ i }) => i);
-
-    // Seleciona aleatoriamente os índices das palavras para ocultar
-    const indicesParaOcultar = new Set();
-    while (indicesParaOcultar.size < Math.min(maxPalavras, indicesValidos.length)) {
-        const randIdx = indicesValidos[Math.floor(Math.random() * indicesValidos.length)];
-        indicesParaOcultar.add(randIdx);
-    }
-
-    return palavras.map((p, i) => {
-        if (indicesParaOcultar.has(i)) {
-            return `<input type="text" class="lacuna-input form-control d-inline-block mx-1 my-1" style="width:auto; display:inline; padding:2px 6px;" data-resposta="${p.trim()}">`;
-        }
-        return p;
-    }).join('');
-}
-
-async function carregarArtigosComLacunas() {
-    const app = document.getElementById('lacunas');
-    app.innerHTML = '';
-    allContainers3 = [];
-    currentIndex3 = 0;
-
-    // Container dos botões topo (setas)
-    const navButtonsContainer = document.createElement('div');
-    navButtonsContainer.className = 'd-flex justify-content-center gap-2 mb-3';
-    navButtonsContainer.innerHTML = `
-        <button id="prevButton3" class="btn btn-primary"><i class="fas fa-arrow-left"></i></button>
-        <button id="nextButton3" class="btn btn-primary"><i class="fas fa-arrow-right"></i></button>
-    `;
-    app.appendChild(navButtonsContainer);
-
-    // Select do artigo
-    const selectArtigos = document.createElement('select');
-    selectArtigos.className = 'form-select mb-3';
-    app.appendChild(selectArtigos);
-
-    // Container do artigo
-    const artigoContainer = document.createElement('div');
-    app.appendChild(artigoContainer);
-
-    const response = await fetch('/constituicao');
-    const data = await response.json();
-    const artigos = data.artigos;
-
-    // Preenche select só com o número do Artigo (ex: "Art. 1º")
-    artigos.forEach((artigo, index) => {
-        const num = artigo.titulo.match(/^Art\. ?\d+º?/i);
-        const texto = num ? num[0] : artigo.titulo; // pega só "Art. 5º", por ex
-        const option = document.createElement('option');
-        option.value = index;
-        option.textContent = texto;
-        selectArtigos.appendChild(option);
-    });
-
-    function mostrarArtigo(index) {
-        artigoContainer.innerHTML = '';
-
-        const artigo = artigos[index];
-
-        // Mostra o título completo com lacunas
-        const titulo = document.createElement('h4');
-        titulo.innerHTML = gerarLacunasComInputs(artigo.titulo, 3);
-        artigoContainer.appendChild(titulo);
-
-        // Mostra os parágrafos
-        artigo.paragrafos.forEach(p => {
-            const pElem = document.createElement('p');
-            pElem.innerHTML = gerarLacunasComInputs(p, 1);
-            artigoContainer.appendChild(pElem);
-        });
-
-        // Botões corrigir e revelar
-        const botoes = document.createElement('div');
-        botoes.className = 'd-flex gap-2 mt-3';
-
-        const botaoCorrigir = document.createElement('button');
-        botaoCorrigir.className = 'btn btn-success';
-        botaoCorrigir.textContent = 'Corrigir';
-        botaoCorrigir.addEventListener('click', () => {
-            const inputs = artigoContainer.querySelectorAll('input.lacuna-input');
-            inputs.forEach(input => {
-                const correto = normalizarTexto(input.dataset.resposta);
-                const resposta = normalizarTexto(input.value);
-                if (resposta === correto) {
-                    input.style.backgroundColor = '#d4edda';
-                    input.style.borderColor = '#28a745';
-                } else {
-                    input.style.backgroundColor = '#f8d7da';
-                    input.style.borderColor = '#dc3545';
-                }
-            });
-        });
-
-        const botaoRevelar = document.createElement('button');
-        botaoRevelar.className = 'btn btn-warning';
-        botaoRevelar.textContent = 'Revelar';
-        botaoRevelar.addEventListener('click', () => {
-            const inputs = artigoContainer.querySelectorAll('input.lacuna-input');
-            inputs.forEach(input => {
-                input.value = input.dataset.resposta;
-                input.style.backgroundColor = '#e2e3e5';
-                input.style.borderColor = '#ced4da';
-            });
-        });
-
-        botoes.appendChild(botaoCorrigir);
-        botoes.appendChild(botaoRevelar);
-        artigoContainer.appendChild(botoes);
-
-        currentIndex3 = index;
-        selectArtigos.value = index;
-    }
-
-    selectArtigos.addEventListener('change', () => {
-        mostrarArtigo(parseInt(selectArtigos.value));
-    });
-
-    document.getElementById('prevButton3').addEventListener('click', () => {
-        if (currentIndex3 > 0) mostrarArtigo(currentIndex3 - 1);
-    });
-
-    document.getElementById('nextButton3').addEventListener('click', () => {
-        if (currentIndex3 < artigos.length - 1) mostrarArtigo(currentIndex3 + 1);
-    });
-
-    mostrarArtigo(currentIndex3);
-}
-
-
-
-let allContainers3 = [];
-let currentIndex3 = 0;
-
-function displayContainer3(index) {
-    allContainers3.forEach(c => c.style.display = 'none');
-    if (allContainers3[index]) allContainers3[index].style.display = 'block';
-    document.getElementById('prevButton3').disabled = index === 0;
-    document.getElementById('nextButton3').disabled = index === allContainers3.length - 1;
-}
-
-function showNextContainer3() {
-    if (currentIndex3 < allContainers3.length - 1) {
-        currentIndex3++;
-        displayContainer3(currentIndex3);
-    }
-}
-
-function showPrevContainer3() {
-    if (currentIndex3 > 0) {
-        currentIndex3--;
-        displayContainer3(currentIndex3);
-    }
-}
+// teste()

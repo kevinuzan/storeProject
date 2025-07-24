@@ -1,0 +1,462 @@
+/* --- Base HTML e Body --- */
+/* Garantem que o HTML e o Body ocupem 100% da largura da tela */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh; /* Garante que o body tenha pelo menos a altura da viewport */
+    box-sizing: border-box; /* Adiciona box-sizing global para comportamento de layout previsível */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex; /* Mantém flex para alinhar o conteúdo principal */
+    flex-direction: column; /* Coloca os itens um abaixo do outro */
+    align-items: center; /* Centraliza o conteúdo horizontalmente */
+    /* Removendo 'gap' e 'margin' diretos do body para melhor controle com o #app */
+}
+
+/* --- Container Principal (#app) --- */
+/* É o contêiner que contém todos os elementos de minemônicos */
+#app {
+    width: 100%; /* Ocupa a largura total do body */
+    max-width: 800px; /* Limita a largura em telas grandes para melhor leitura */
+    padding: 20px; /* Padding geral para o conteúdo da aplicação */
+    box-sizing: border-box;
+    display: flex; /* Também é um flex container para organizar seus filhos (título, botões de navegação, minemônicos) */
+    flex-direction: column;
+    align-items: center; /* Centraliza horizontalmente o conteúdo dentro do #app */
+    gap: 20px; /* Espaçamento entre o título, botões de navegação e os minemônicos */
+}
+
+/* --- Estilos para o Título Principal (MINEMÔNICOS) --- */
+#app h1 {
+    margin: 0; /* Remove margem padrão do h1 */
+}
+
+/* --- Container de Cada Minemônico (o que estava com problema) --- */
+.container2 {
+    border: 2px solid #000;
+    width: 100%; /* MUITO IMPORTANTE: Garante que o container ocupe 100% da largura do #app */ 
+    padding: 10px;
+    box-sizing: border-box;
+    margin: 0; /* Remove margem padrão para que o gap do #app controle o espaçamento */
+    margin-bottom: 20px; /* Adiciona um espaçamento inferior para separação entre minemônicos */
+    display: flex; /* Adiciona display flex para organizar conteúdo interno */
+    flex-direction: column; /* Organiza matéria, header, cards e botões verticalmente */
+    align-items: stretch; /* Garante que os filhos (como o header) se estiquem para a largura total do container */
+}
+
+/* --- Container de Cada Minemônico (o que estava com problema) --- */
+.container {
+    border: 2px solid #000;
+    width: 100%; /* MUITO IMPORTANTE: Garante que o container ocupe 100% da largura do #app */ 
+    padding: 10px;
+    box-sizing: border-box;
+    margin: 0; /* Remove margem padrão para que o gap do #app controle o espaçamento */
+    margin-bottom: 20px; /* Adiciona um espaçamento inferior para separação entre minemônicos */
+    display: flex; /* Adiciona display flex para organizar conteúdo interno */
+    flex-direction: column; /* Organiza matéria, header, cards e botões verticalmente */
+    align-items: stretch; /* Garante que os filhos (como o header) se estiquem para a largura total do container */
+}
+
+/* --- Título da Matéria --- */
+.materia-title {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center; /* Centraliza o texto da matéria */
+}
+
+/* --- Cabeçalho com a Frase Inicial e Minemônico --- */
+.header {
+    border-bottom: 2px solid #000;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 15px;
+    width: 100%; /* Garante que o header ocupe 100% da largura do seu pai (.container) */
+    box-sizing: border-box;
+}
+
+/* Estilo do minemônico destacado */
+.header span {
+    font-size: 1.2em;
+    color: #28a745;
+    font-weight: bold;
+}
+
+/* --- Container dos Cards --- */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+    padding: 10px; /* Aumenta o padding interno para os cards */
+    width: 100%; /* Ocupa 100% da largura do container */
+    box-sizing: border-box;
+}
+
+/* --- Container dos Cards --- */
+.cards2 {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(130px, 1fr));
+    gap: 10px;
+    padding: 10px; /* Aumenta o padding interno para os cards */
+    width: 100%; /* Ocupa 100% da largura do container */
+    box-sizing: border-box;
+}
+
+/* --- Estilo Individual do Card --- */
+.card2 {
+    border: 2px solid #000;
+    padding: 1px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    white-space: normal;
+    overflow: hidden;
+    width: 100%; /* Largura padrão para cards */
+    height: 110px; /* Altura padrão para cards */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Estilo do card ativo (selecionado) */
+.card2.active {
+    background-color: #4c82af;
+    color: #fff;
+}
+/* --- Estilo Individual do Card --- */
+.card {
+    border: 2px solid #000;
+    padding: 1px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    white-space: normal;
+    overflow: hidden;
+    width: 130px; /* Largura padrão para cards */
+    height: 80px; /* Altura padrão para cards */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Estilo do card ativo (selecionado) */
+.card.active {
+    background-color: #4c82af;
+    color: #fff;
+}
+
+/* --- Container dos Botões de Ação (Enviar/Reiniciar) --- */
+.botoes-container { /* Adicionei uma classe para este div no JS */
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    width: 100%; /* Garante que o container dos botões ocupe a largura total */
+    box-sizing: border-box;
+    justify-content: center; /* Centraliza os botões em telas maiores */
+}
+
+
+/* --- Estilos dos Botões Gerais --- */
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    flex-grow: 1; /* Permite que os botões dentro de flex containers cresçam */
+    max-width: 150px; /* Limita a largura dos botões em telas grandes */
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* --- Estilos para os Botões de Navegação Global (Anterior/Próximo) --- */
+.nav-buttons-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    gap: 15px;
+    width: 100%;
+}
+
+.nav-buttons-container .btn {
+    flex-grow: 0; /* Não permite que os botões de navegação cresçam */
+    width: auto;
+    min-width: 80px;
+}
+
+
+/* --- Media Queries para Responsividade --- */
+
+/* Telas menores que 768px (tablets e celulares) */
+@media (max-width: 768px) {
+    #app {
+        padding: 10px; /* Menor padding para o app */
+        gap: 15px; /* Ajusta espaçamento entre os elementos principais */
+    }
+
+    .container {
+        padding: 15px; /* Mais padding interno para o container em mobile */
+        margin-bottom: 15px; /* Reduz o espaçamento entre minemônicos */
+    }
+
+    .cards2 {
+        grid-template-columns: repeat(1, minmax(100px, 1fr)); /* Mais colunas compactas */
+        gap: 8px;
+        padding: 5px; /* Menor padding interno dos cards */
+    }
+    .card2 {
+        width: auto; /* Deixa a largura automática para o grid controlar */
+        height: 130px; /* Altura do card ajustada */
+        font-size: 10.5px; /* Texto menor para caber melhor */
+        word-break: break-word;
+    }
+
+    .cards {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); /* Mais colunas compactas */
+        gap: 8px;
+        padding: 5px; /* Menor padding interno dos cards */
+    }
+
+    .card {
+        width: auto; /* Deixa a largura automática para o grid controlar */
+        height: 65px; /* Altura do card ajustada */
+        font-size: 11px; /* Texto menor para caber melhor */
+        word-break: break-word;
+    }
+
+    .materia-title {
+        font-size: 1.2em;
+    }
+
+    .header {
+        font-size: 0.95em;
+    }
+
+    .header span {
+        font-size: 1.1em !important; /* Ajusta o destaque do minemônico */
+    }
+
+    /* Ajuste para os botões de ação no final do container */
+    .botoes-container {
+        flex-direction: column; /* Botões um abaixo do outro */
+        align-items: stretch; /* Estica os botões para a largura total */
+        gap: 8px; /* Menor espaçamento entre os botões empilhados */
+    }
+
+    .botoes-container .btn {
+        max-width: none; /* Remove a largura máxima */
+        width: 100%; /* Ocupa a largura total */
+        margin: 0; /* Remove margens extras */
+    }
+
+    .nav-buttons-container .btn {
+        min-width: 60px; /* Menor largura mínima para setas */
+    }
+}
+
+/* Telas muito pequenas (smartphones pequenos, ex: iPhone SE) */
+@media (max-width: 480px) {
+    #app {
+        padding: 5px;
+        gap: 10px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    .cards {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); /* Mais compacto ainda */
+        gap: 6px;
+        padding: 3px;
+    }
+
+    .card {
+        width: 80px;
+        height: 70px;
+        font-size: 10px;
+        word-break: break-word;
+    }
+
+    .materia-title {
+        font-size: 1.1em;
+    }
+
+    .header {
+        font-size: 0.85em;
+        padding: 8px;
+    }
+
+    .header span {
+        font-size: 1.05em !important;
+    }
+
+    .btn {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+}
+
+/* Container geral do lacunas */
+#lacunas {
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* Container dos botões topo */
+#lacunas > div:first-child {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+/* Botões principais */
+#lacunas button.btn {
+    min-width: 100px;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: background-color 0.25s ease;
+}
+
+/* Botão revelar com margem esquerda */
+#revealButton3 {
+    margin-left: 20px;
+}
+
+/* Select de artigo */
+#lacunas select.form-select {
+    max-width: 220px;
+    margin: 0 auto 1.5rem auto;
+    display: block;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    font-size: 1rem;
+    transition: border-color 0.25s ease;
+}
+
+#lacunas select.form-select:focus {
+    border-color: #4c82af;
+    outline: none;
+    box-shadow: 0 0 6px rgba(76, 130, 175, 0.5);
+}
+
+/* Container do artigo */
+#lacunas > div:nth-child(3) {
+    background: white;
+    border-radius: 8px;
+    padding: 15px 25px;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 0.1);
+}
+
+/* Título do artigo */
+#lacunas h4 {
+    font-weight: 700;
+    color: #004080;
+    margin-bottom: 15px;
+    user-select: none;
+}
+
+/* Parágrafos */
+#lacunas p {
+    font-size: 1.05rem;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    color: #222;
+}
+
+/* Inputs das lacunas */
+.lacuna-input {
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    padding: 4px 8px;
+    min-width: 60px;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    text-align: center;
+    user-select: text;
+}
+
+/* Foco no input */
+.lacuna-input:focus {
+    outline: none;
+    border-color: #4c82af;
+    background-color: #e8f0fe;
+    box-shadow: 0 0 6px rgba(76, 130, 175, 0.6);
+}
+
+/* Container dos botões corrigir e revelar */
+#lacunas .d-flex.gap-2.mt-3 {
+    justify-content: center;
+    margin-top: 20px;
+    gap: 15px;
+}
+
+/* Botões corrigir/revelar */
+#lacunas .btn-success, #lacunas .btn-warning {
+    min-width: 120px;
+    font-weight: 600;
+    border-radius: 6px;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    #lacunas select.form-select {
+        max-width: 100%;
+        font-size: 0.95rem;
+    }
+
+    #lacunas p {
+        font-size: 1rem;
+    }
+
+    .lacuna-input {
+        min-width: 45px;
+        font-size: 0.9rem;
+        padding: 3px 6px;
+    }
+
+    #lacunas > div:nth-child(3) {
+        padding: 10px 15px;
+    }
+}
